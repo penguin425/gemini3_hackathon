@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
     const client = getAiClient();
     const response = await client.models.generateContent({
-      model: "gemini-2.5-pro-preview-001",
+      model: "gemini-2.5-pro",
       contents: `あなたは俳句の専門家であり、音楽プロデューサー兼アートディレクターです。
       以下の俳句を分析し、指定されたJSON形式で回答してください。
 

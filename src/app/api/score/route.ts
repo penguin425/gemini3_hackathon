@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     }
 
     const response = await client.models.generateContent({
-      model: "gemini-2.5-pro-preview-001",
+      model: "gemini-2.5-pro",
       contents: contents,
       config: {
         responseMimeType: "application/json",
