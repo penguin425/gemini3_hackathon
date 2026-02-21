@@ -45,6 +45,9 @@ export default function Home() {
   
   const [loadingMsg, setLoadingMsg] = useState("ビートを準備中... 🎧");
 
+  // Toggle debug alerts and console logs
+  const DEBUG = false;
+
   useEffect(() => {
     // Listen for auth state changes
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -53,7 +56,7 @@ export default function Home() {
       
       // If not logged in, fallback to anonymous auth automatically
       if (!currentUser && process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
-         signInAnon().catch(console.error);
+         signInAnon().catch(e => { if (DEBUG) console.error(e) });
       }
     });
 
@@ -125,7 +128,7 @@ export default function Home() {
       try {
         imageData = await imageRes.json();
       } catch (e) {
-        console.error("Image gen failed", e);
+        if (DEBUG) console.error("Image gen failed", e);
         imageData = { imageUrl: "" }; // Image is optional
       }
 
@@ -176,7 +179,7 @@ export default function Home() {
           await uploadBytes(storageRef, blob);
           return await getDownloadURL(storageRef);
         } catch (uploadError) {
-          console.error(`Storage upload failed for ${type}:`, uploadError);
+          if (DEBUG) console.error(`Storage upload failed for ${type}:`, uploadError);
           return "local_only";
         }
       };
@@ -226,8 +229,12 @@ export default function Home() {
       
       setStep("result");
     } catch (error: any) {
-      console.error(error);
-      alert(`エラーが発生しました: ${error.message}`);
+      if (DEBUG) {
+        console.error(error);
+        alert(`エラーが発生しました: ${error.message}`);
+      } else {
+        alert("エラーが発生しました。もう一度お試しください。");
+      }
       setStep("input");
     } finally {
       setIsSubmitting(false);
@@ -268,10 +275,11 @@ export default function Home() {
         setHaiku(""); // Clear input on reset
         setStep("input");
       } else {
-        alert(`エラー: ${data.error}`);
+        if (DEBUG) alert(`エラー: ${data.error}`);
+        else alert("リセットに失敗しました");
       }
     } catch (e) {
-      console.error(e);
+      if (DEBUG) console.error(e);
       alert("通信エラーが発生しました");
     }
   };
