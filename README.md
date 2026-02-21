@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 俳句DJ 🐧 〜 ペン芭蕉のビートチャレンジ 〜
+(Haiku DJ: Pen-Basho's Beat Challenge)
 
-## Getting Started
+五七五の俳句を詠むと、AIがその世界観を解析し、**オリジナルビート（音楽）**と**情景画像**を自動生成して鑑定してくれる新感覚のWebアプリケーションです。
 
-First, run the development server:
+## 🌟 主な機能 (Features)
 
+1. **AI俳句鑑定 & スコアリング**
+   入力された俳句を「リズム」「エモさ」「独創性」「調和」の4項目でAIが評価・採点し、講評を返します。季語や色彩も自動で抽出します。
+2. **情景の画像生成 (Image Generation)**
+   俳句から読み取れる情景や色彩を元に、その句の世界観を表す画像を生成します。
+3. **オリジナルビート生成 (Music Generation)**
+   俳句の感情や季節感に合わせてプロンプトを構築し、AIがマッチする短い音楽（ビート）を生成します。
+4. **全国ビート番付 (Leaderboard)**
+   高得点を叩き出した俳句は、ランキングボードに掲載され、他のユーザーが生成したビートや画像を鑑賞することができます。
+5. **Google認証対応**
+   Googleアカウントでのログインに対応し、自分の名前でランキングに挑戦できます（匿名利用も可能）。
+
+## 🛠️ 技術スタック & AIモデル (Tech Stack & AI Models)
+
+**Frontend:**
+* [Next.js 15](https://nextjs.org/) (App Router, React 19)
+* [Tailwind CSS v4](https://tailwindcss.com/)
+* [Framer Motion](https://www.framer.com/motion/) (アニメーション)
+* [Radix UI](https://www.radix-ui.com/) / [Lucide Icons](https://lucide.dev/)
+
+**Backend & BaaS:**
+* **Firebase** (Authentication, Firestore, Cloud Storage)
+* **Next.js API Routes** (Serverless backend)
+
+**AI Models & SDK:**
+* **Text Analysis & Scoring**: `gemini-3.1-pro-preview` (via `@google/genai` SDK)
+* **Image Generation**: `gemini-3-pro-image-preview`
+* **Audio Generation**: `lyria-002` (via Vertex AI REST API)
+
+---
+
+## 🚀 開発環境の構築 (Getting Started)
+
+### 1. リポジトリのクローンとパッケージのインストール
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/penguin425/gemini3_hackathon.git
+cd gemini3_hackathon
+npm install
+# or yarn install / pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. 環境変数の設定
+プロジェクトルートにある `.env.example` をコピーして `.env.local` を作成します。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.env.local` を開き、以下のAPIキーや設定値を入力してください。
+* **Google AI Studio (Gemini API)** のAPIキー
+* **Firebase** プロジェクトの設定値
+* **Google Cloud / Vertex AI** のプロジェクトID (Lyria音楽生成用)
+* ※ Vertex AI を利用する場合は、認証用の `service-account-key.json` をルートディレクトリに配置する必要があります。
 
-## Learn More
+### 3. 開発サーバーの起動
+```bash
+npm run dev
+# or yarn dev / pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+ブラウザで [http://localhost:3000](http://localhost:3000) にアクセスするとアプリケーションが起動します。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 プロジェクト構成 (Project Structure)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* `src/app/page.tsx` - メインUI・フロントエンドロジック
+* `src/app/api/analyze/route.ts` - 俳句の分析・スコアリングAPI (Gemini 3.1 Pro)
+* `src/app/api/image/route.ts` - 画像生成API (Gemini 3 Pro Image)
+* `src/app/api/generate/route.ts` - 音楽・ビート生成API (Lyria 002 via Vertex AI)
+* `src/lib/firebase.ts` / `firebase-admin.ts` - Firebaseの設定と管理
+* `src/components/ui/` - 共通UIコンポーネント (ボタン、カードなど)
