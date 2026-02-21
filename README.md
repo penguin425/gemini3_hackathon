@@ -29,7 +29,7 @@
 * **Next.js API Routes** (Serverless backend)
 
 **AI Models & SDK:**
-* **Text Analysis & Scoring**: `gemini-3.1-pro-preview` (via `@google/genai` SDK)
+* **Text Analysis & Scoring**: `gemini-2.5-pro-preview-001` (via `@google/genai` SDK)
 * **Image Generation**: `gemini-3-pro-image-preview`
 * **Audio Generation**: `lyria-002` (via Vertex AI REST API)
 
