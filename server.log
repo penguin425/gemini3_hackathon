@@ -1,0 +1,19 @@
+
+> otoyomi@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.2:3001
+
+✓ Starting...
+✓ Ready in 1616ms
+○ Compiling / ...
+Firebase config missing. Firebase features will be disabled.
+ GET / 200 in 9.1s (compile: 7.9s, render: 1114ms)
+GOOGLE_AI_API_KEY not found. Using mock analysis.
+ POST /api/analyze 200 in 2.7s (compile: 1206ms, render: 1541ms)
+ POST /api/generate 200 in 3.2s (compile: 208ms, render: 3.0s)
+GOOGLE_AI_API_KEY not found. Using mock scoring.
+ POST /api/score 200 in 1783ms (compile: 266ms, render: 1517ms)
